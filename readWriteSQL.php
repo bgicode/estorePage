@@ -12,8 +12,6 @@ try {
 function read($pdo, $query, $arPrepParams = NULL): mixed
 {
     try {
-
-        // $tab = $pdo->query($query);
         $tab = $pdo->prepare($query);
         $tab->execute($arPrepParams);
         $arReadingLines = $tab->fetchAll(PDO::FETCH_ASSOC);

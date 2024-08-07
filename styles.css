@@ -29,10 +29,6 @@
     color: rgb(88, 88, 88);
 }
 
-.model {
-    /* width: 30%; */
-}
-
 .goodPrice {
     text-align: right;
     margin-right: 0;
@@ -61,4 +57,3 @@
 .show {
     margin-top: 10px;
 }
-

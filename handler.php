@@ -2,7 +2,6 @@
 require_once('readWriteSQL.php');
 require_once('functions.php');
 
-// $queryCountRecords = "SELECT COUNT(*) FROM $table";
 $arBrandList = read($pdo, "SELECT DISTINCT b.name FROM brands AS b JOIN stabilizers AS s ON b.brand_id = s.brand;");
 
 $arExtremums = read($pdo, "SELECT MIN(price) AS minPrice, MAX(price) AS maxPrice, MIN(weight) AS minWeight, MAX(weight) AS maxWeight, MIN(power) AS minPower, MAX(power) AS maxPower FROM stabilizers;");
@@ -30,31 +29,6 @@ $arPrepParamsPower = [];
 $arPrepParamsWeight = [];
 $arPrepParamsBrands = [];
 $arPrepParams = NULL;
-
-
-
-// function rangeQuery($getParam, $column)
-// {
-//     if (!empty($getParam['from']) && empty($getParam['to'])) {
-//         $isQueryCondition = true;
-//         $range = $column . " >= " . $getParam['from'] . " AND ";
-//         return [$isQueryCondition, $range];
-//     } elseif (!empty($getParam['to']) && empty($getParam['from'])) {
-//         $isQueryCondition = true;
-//         $range = $column . " <= " . $getParam['to'] . " AND ";
-//         return [$isQueryCondition, $range];
-//     } elseif (!empty($getParam['to']) && !empty($getParam['from'])) {
-//         $isQueryCondition = true;
-//         $range = $column . " BETWEEN ". $getParam['from'] . " AND " . $getParam['to'] . " AND ";
-//         return [$isQueryCondition, $range];
-//     } 
-//     else {
-//         return [false, ''];
-//     }
-// }
-
-
-
 
 if(!empty($_GET['price']['from']) || !empty($_GET['price']['to'])) {
     $rangePrice = rangeQuery($_GET['price'], 'price')[1];
@@ -92,23 +66,6 @@ if(isset($_GET['filterBrands'])){
     $brandsCondition .= ") AND ";
 }
 
-
-// if(isset($_GET['filterBrands'])){
-//     $isQueryCondition = true;
-//     $brandsCondition = "name IN (";
-//     $brandItter = 0;
-//     foreach($_GET['filterBrands'] as $brand) {
-//         if ($brandItter == 0) {
-//             $brandsCondition .= "'" . $brand . "'";
-//         } else {
-//             $brandsCondition .= ", '" . $brand . "'";
-//         }
-//         $brandItter++;
-//     }
-//     $brandsCondition .= ") AND ";
-//     $arPrepParamsBrands;
-// }
-
 if($isQueryCondition) {
     $queryCondition = "WHERE " . $rangePrice . $brandsCondition . $rangePower . $rangeWeight;
     $arPrepParams = [];
@@ -117,10 +74,6 @@ if($isQueryCondition) {
 }
 
 $queryCondition = preg_replace('/\sAND\s?$/', '', $queryCondition);
-// print_r ($arPrepParams);
-// echo '<br>';
-// echo ($queryCondition);
-// // var_dump($isQueryCondition);
 
 $arBrandListGet = read($pdo, "SELECT DISTINCT name FROM brands JOIN stabilizers  ON brand_id = brand $queryCondition;", $arPrepParams);
 
@@ -136,8 +89,6 @@ if (isset($_GET["page"])) {
 } else {
     $queryRecords = "SELECT name, price, power, weight, model FROM stabilizers JOIN brands ON brand = brand_id $queryCondition LIMIT 0,$countShow;";
 }
-
-
 
 $CountRecords = read($pdo, "SELECT COUNT(*) AS count FROM stabilizers JOIN brands ON brand = brand_id $queryCondition", $arPrepParams)[0]['count'];
 $arAllRecords = read($pdo, $queryRecords, $arPrepParams);
