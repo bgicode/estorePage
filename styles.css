@@ -1,0 +1,64 @@
+.mainWraper{
+    display: flex;
+    width: 60%;
+}
+
+.goodsListWraper {
+    margin-left: 20px;
+    width: 100%;
+}
+
+.goodUnitWraper {
+    display: flex;
+    border: 1px solid black;
+    margin-bottom: 10px;
+    padding: 10px;
+    flex-flow: row wrap;
+}
+
+.goodUnitWraper > div {
+    margin-right: 10px;
+    width: 20%;
+}
+
+.parametrWraper {
+    display: flex;
+}
+
+.notAvailable {
+    color: rgb(88, 88, 88);
+}
+
+.model {
+    /* width: 30%; */
+}
+
+.goodPrice {
+    text-align: right;
+    margin-right: 0;
+    font-size: 20px;
+}
+
+.righted {
+    order: 999;
+    margin-left: auto;
+    font-weight: bold;
+}
+
+.pageSelect {
+    border: 1px solid black;
+}
+
+.filterParametrWraper {
+    margin-bottom: 10px;
+}
+
+.brandList {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.show {
+    margin-top: 10px;
+}
+
