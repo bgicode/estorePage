@@ -1,11 +1,10 @@
 .mainWraper{
     display: flex;
-    width: 60%;
 }
 
 .goodsListWraper {
     margin-left: 20px;
-    width: 100%;
+    width: 60%;
 }
 
 .goodUnitWraper {
@@ -56,4 +55,41 @@
 
 .show {
     margin-top: 10px;
+}
+
+.goodUnitWraper:nth-child(2) {
+    margin-top: 30px;
+}
+
+option:nth-child(1):hover {
+    background: rgb(255, 255, 255);
+}
+
+option:nth-child(2):hover {
+    background: black;
+    color: white;
+}
+
+option:nth-child(3):hover {
+    background: black;
+    color: white;
+}
+
+option:nth-child(4):hover {
+    background: black;
+    color: white;
+}
+
+option:nth-child(5):hover {
+    background: black;
+    color: white;
+}
+
+select {
+    position: fixed;
+    margin-bottom: 20px;
+}
+
+.filterWraperFix {
+    position: fixed;
 }

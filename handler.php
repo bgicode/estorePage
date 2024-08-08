@@ -15,7 +15,11 @@ $maxPower = $arExtremums[0]['maxPower'];
 $minWeight = $arExtremums[0]['minWeight'];
 $maxWeight = $arExtremums[0]['maxWeight'];
 
-$countShow = 5;
+if (isset($_GET["countShow"])) {
+    $countShow = $_GET['countShow'];
+} else {
+    $countShow = 5;
+}
 
 $isQueryCondition = false;
 
@@ -80,7 +84,6 @@ $arBrandListGet = read($pdo, "SELECT DISTINCT name FROM brands JOIN stabilizers 
 if (isset($_GET["page"])) {
     if($_GET["page"] == 1){
         $showStart = 0;
-
     } else {
         $showStart = ($_GET["page"] - 1) * $countShow;
 
@@ -91,4 +94,5 @@ if (isset($_GET["page"])) {
 }
 
 $CountRecords = read($pdo, "SELECT COUNT(*) AS count FROM stabilizers JOIN brands ON brand = brand_id $queryCondition", $arPrepParams)[0]['count'];
+
 $arAllRecords = read($pdo, $queryRecords, $arPrepParams);

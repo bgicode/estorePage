@@ -25,4 +25,17 @@ window.onload = function()
             arPaginator[i].classList.remove("pageSelect");
         }
     }
+
+    let selectDropdown = document.querySelector('select');
+
+    selectDropdown.addEventListener('change', function (e) { 
+        updateURLParameter('countShow', selectDropdown.value)
+    });
+
+    let childeWith = document.querySelector(".filterWraperFix").offsetWidth;
+
+    const parent = document.querySelector(".filterWraper");
+
+    parent.style.width = `${childeWith}px`;
+
 }
