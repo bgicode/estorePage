@@ -38,7 +38,7 @@ if(!empty($_GET['price']['from']) || !empty($_GET['price']['to'])) {
     $rangePrice = rangeQuery($_GET['price'], 'price')[1];
     $isQueryCondition = rangeQuery($_GET['price'], 'price')[0];
     $arPrepParamsPrice = rangeQuery($_GET['price'], 'price')[2];
-} 
+}
 
 if(!empty($_GET['power']['from']) || !empty($_GET['power']['to'])) {
     $rangePower = rangeQuery($_GET['power'], 'power')[1];
@@ -82,12 +82,7 @@ $queryCondition = preg_replace('/\sAND\s?$/', '', $queryCondition);
 $arBrandListGet = read($pdo, "SELECT DISTINCT name FROM brands JOIN stabilizers  ON brand_id = brand $queryCondition;", $arPrepParams);
 
 if (isset($_GET["page"])) {
-    if($_GET["page"] == 1){
-        $showStart = 0;
-    } else {
-        $showStart = ($_GET["page"] - 1) * $countShow;
-
-    }
+    $showStart = ($_GET["page"] - 1) * $countShow;
     $queryRecords = "SELECT name, price, power, weight, model FROM stabilizers JOIN brands ON brand = brand_id $queryCondition LIMIT $showStart,$countShow;";
 } else {
     $queryRecords = "SELECT name, price, power, weight, model FROM stabilizers JOIN brands ON brand = brand_id $queryCondition LIMIT 0,$countShow;";

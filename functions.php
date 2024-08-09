@@ -2,20 +2,26 @@
 function rangeQuery($getParam, $column)
 {
     if (!empty($getParam['from']) && empty($getParam['to'])) {
+
         $isQueryCondition = true;
         $range = $column . " >= :$column" . "from AND ";
         $arPrepParams = [$column . 'from' => $getParam['from']];
         return [$isQueryCondition, $range, $arPrepParams];
+
     } elseif (!empty($getParam['to']) && empty($getParam['from'])) {
+
         $isQueryCondition = true;
         $range = $column . " <= :$column" . "to AND ";
         $arPrepParams = [$column . 'to' => $getParam['to']];
         return [$isQueryCondition, $range, $arPrepParams];
+
     } elseif (!empty($getParam['to']) && !empty($getParam['from'])) {
+
         $isQueryCondition = true;
         $range = $column . " BETWEEN :$column" . "from AND :$column" . "to AND ";
         $arPrepParams = [$column . 'from' => $getParam['from'], $column . 'to' => $getParam['to']];
         return [$isQueryCondition, $range, $arPrepParams];
+
     } 
     else {
         return [false, '', NULL];
@@ -49,6 +55,6 @@ function rusTranslit($string)
         'Ь' => '',    'Ы' => 'Y',   'Ъ' => '',
         'Э' => 'E',   'Ю' => 'Yu',  'Я' => 'Ya',
     ];
-    
+
     return strtr($string, $converter);
 }

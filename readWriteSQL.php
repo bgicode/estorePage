@@ -2,8 +2,8 @@
 try {
     $pdo = new PDO(
         'mysql:host=localhost;dbname=sqltask',
-        'root',
-        '',
+        'sqltask',
+        'sqltask',
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 } catch (PDOException $e) {
     echo "Невозможно установить соединение с базой данных";
@@ -31,6 +31,5 @@ function Write(array $arPrepParams, $query, $pdo): mixed
         echo "Ошибка выполнения запроса: " . $e->getMessage();
         return false;
     }
-
     return $write;
 }
