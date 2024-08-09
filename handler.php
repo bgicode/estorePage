@@ -81,13 +81,17 @@ $queryCondition = preg_replace('/\sAND\s?$/', '', $queryCondition);
 
 $arBrandListGet = read($pdo, "SELECT DISTINCT name FROM brands JOIN stabilizers  ON brand_id = brand $queryCondition;", $arPrepParams);
 
+$CountRecords = read($pdo, "SELECT COUNT(*) AS count FROM stabilizers JOIN brands ON brand = brand_id $queryCondition", $arPrepParams)[0]['count'];
+
 if (isset($_GET["page"])) {
-    $showStart = ($_GET["page"] - 1) * $countShow;
-    $queryRecords = "SELECT name, price, power, weight, model FROM stabilizers JOIN brands ON brand = brand_id $queryCondition LIMIT $showStart,$countShow;";
+    if ($countShow == $CountRecords){
+        $queryRecords = "SELECT name, price, power, weight, model FROM stabilizers JOIN brands ON brand = brand_id $queryCondition LIMIT 0,$countShow;";
+    } else {
+        $showStart = ($_GET["page"] - 1) * $countShow;
+        $queryRecords = "SELECT name, price, power, weight, model FROM stabilizers JOIN brands ON brand = brand_id $queryCondition LIMIT $showStart,$countShow;";
+    }
 } else {
     $queryRecords = "SELECT name, price, power, weight, model FROM stabilizers JOIN brands ON brand = brand_id $queryCondition LIMIT 0,$countShow;";
 }
-
-$CountRecords = read($pdo, "SELECT COUNT(*) AS count FROM stabilizers JOIN brands ON brand = brand_id $queryCondition", $arPrepParams)[0]['count'];
 
 $arAllRecords = read($pdo, $queryRecords, $arPrepParams);
