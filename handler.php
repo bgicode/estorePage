@@ -54,23 +54,23 @@ if(!empty($_GET['weight']['from']) || !empty($_GET['weight']['to'])) {
 
 $arBrandList = read($pdo, "SELECT DISTINCT b.name FROM brands AS b JOIN stabilizers AS s ON b.brand_id = s.brand;");
 
-if(isset($_GET['filterBrands'])){
+if (isset($_GET['filterBrands'])) {
     $isQueryCondition = true;
     $brandsCondition = "(name = ";
     $brandItter = 0;
-    foreach($_GET['filterBrands'] as $brand) {
+    foreach ($_GET['filterBrands'] as $brand) {
         if ($brandItter == 0) {
-            $brandsCondition .= ":" . str_replace(" ", "", rusTranslit($brand));
+            $brandsCondition . = ":" . str_replace(" ", "", rusTranslit($brand));
         } else {
-            $brandsCondition .= " OR name = :" . str_replace(" ", "", rusTranslit($brand));
+            $brandsCondition . = " OR name = :" . str_replace(" ", "", rusTranslit($brand));
         }
         $brandItter++;
         $arPrepParamsBrands[str_replace(" ", "", rusTranslit($brand))] = $brand;
     }
-    $brandsCondition .= ") AND ";
+    $brandsCondition . = ") AND ";
 }
 
-if($isQueryCondition) {
+if ($isQueryCondition) {
     $queryCondition = "WHERE " . $rangePrice . $brandsCondition . $rangePower . $rangeWeight;
     $arPrepParams = [];
     
@@ -84,7 +84,7 @@ $arBrandListGet = read($pdo, "SELECT DISTINCT name FROM brands JOIN stabilizers 
 $CountRecords = read($pdo, "SELECT COUNT(*) AS count FROM stabilizers JOIN brands ON brand = brand_id $queryCondition", $arPrepParams)[0]['count'];
 
 if (isset($_GET["page"])) {
-    if ($countShow == $CountRecords){
+    if ($countShow == $CountRecords) {
         $queryRecords = "SELECT name, price, power, weight, model FROM stabilizers JOIN brands ON brand = brand_id $queryCondition LIMIT 0,$countShow;";
     } else {
         $showStart = ($_GET["page"] - 1) * $countShow;

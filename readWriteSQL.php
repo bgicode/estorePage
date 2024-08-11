@@ -4,7 +4,8 @@ try {
         'mysql:host=localhost;dbname=sqltask',
         'sqltask',
         'sqltask',
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+    );
 } catch (PDOException $e) {
     echo "Невозможно установить соединение с базой данных";
 }
@@ -22,7 +23,7 @@ function read($pdo, $query, $arPrepParams = NULL): mixed
     return $arReadingLines;
 }
 
-function Write(array $arPrepParams, $query, $pdo): mixed
+function write(array $arPrepParams, $query, $pdo): mixed
 {
     try {
         $write = $pdo->prepare($query);
