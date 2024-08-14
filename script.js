@@ -21,8 +21,6 @@ window.onload = function()
 
     let arPaginator = document.getElementsByClassName('page');
 
-    
-
     const addPageAfter = document.createElement('button');
     addPageAfter.textContent = '...';
     addPageAfter.classList.add("pageMore");
@@ -33,13 +31,18 @@ window.onload = function()
 
     var flag = false;
 
+    let paginator = 1;
+    if (page != null) {
+        paginator = page;
+    } else {
+        paginator = 1;
+    }    
 
     addPageAfter.addEventListener('click', function () {
-        updateURLParameter('page', page - 3);
+        updateURLParameter('page', paginator - 3);
      });
 
-
-    if (page > 5) {
+    if (paginator > 5) {
         arPaginator[0].insertAdjacentElement('afterend', addPageAfter);
         var flag = true;
     } else {
@@ -48,15 +51,15 @@ window.onload = function()
 
     for (let i = 0; i < arPaginator.length; i++) {
 
-        if (arPaginator[i].innerHTML == page) {
+        if (arPaginator[i].innerHTML == paginator) {
             arPaginator[i].classList.add("pageSelect");
         } else {
             arPaginator[i].classList.remove("pageSelect");
         }
-        if (flag == true && i < (page - 2) && i > 0 ) {
+        if (flag == true && i < (paginator - 2) && i > 0 ) {
             arPaginator[i].classList.add("pageHidden");
         }
-        if (arPaginator.length > 5 && i > (parseInt(page) + 1) && i != (arPaginator.length - 1)) {
+        if (arPaginator.length > 5 && i > (parseInt(paginator) + 1) && i != (arPaginator.length - 1)) {
             arPaginator[i].classList.add("pageHidden");
             var overPage = true;
         }
@@ -67,7 +70,7 @@ window.onload = function()
     }
 
     addPageBefore.addEventListener('click', function () {
-        updateURLParameter('page', parseInt(page) + 3);
+        updateURLParameter('page', parseInt(paginator) + 3);
      });
 
     let selectDropdown = document.querySelector('select');
@@ -77,8 +80,6 @@ window.onload = function()
         url.searchParams.set('page', 1);
 
         window.location.href = url.toString();
-        // updateURLParameter('countShow', selectDropdown.value);
-        // updateURLParameter('page', 1);
     });
 
     let childeWith = document.querySelector(".filterWraperFix").offsetWidth;
@@ -86,7 +87,5 @@ window.onload = function()
     const parent = document.querySelector(".filterWraper");
 
     parent.style.width = `${childeWith}px`;
-
-
 
 }

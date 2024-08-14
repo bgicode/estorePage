@@ -2,16 +2,12 @@
 require_once('readWriteSQL.php');
 require_once('functions.php');
 
-// $arBrandList = read($pdo, "SELECT DISTINCT b.name FROM brands AS b JOIN stabilizers AS s ON b.brand_id = s.brand;");
-
-
-
-// if (!empty($_SERVER['HTTPS'])) {
-//     $url = 'https';
-// } else {
-//     $url = 'http';
-// }
-// $url .= '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+if (!empty($_GET)
+    && preg_match("/=&|=$/", $_SERVER['REQUEST_URI'])
+) {
+    header('Location: ' . cleanEpmtyGet());
+    exit;
+}
 
 $arExtremums = read($pdo, "SELECT MIN(price) AS minPrice, MAX(price) AS maxPrice, MIN(weight) AS minWeight, MAX(weight) AS maxWeight, MIN(power) AS minPower, MAX(power) AS maxPower FROM stabilizers;");
 
@@ -61,7 +57,6 @@ if(!empty($_GET['weight']['from']) || !empty($_GET['weight']['to'])) {
     $arPrepParamsWeight = rangeQuery($_GET['weight'], 'weight')[2];
 }
 
-// $arBrandList = read($pdo, "SELECT DISTINCT b.name FROM brands AS b JOIN stabilizers AS s ON b.brand_id = s.brand;");
 $arBrandList = read($pdo, "SELECT DISTINCT brand FROM stabilizers;");
 
 if (isset($_GET['filterBrands'])) {
@@ -89,10 +84,7 @@ if ($isQueryCondition) {
 
 $queryCondition = preg_replace('/\sAND\s?$/', '', $queryCondition);
 
-// $arBrandListGet = read($pdo, "SELECT DISTINCT name FROM brands JOIN stabilizers  ON brand_id = brand $queryCondition;", $arPrepParams);
 $arBrandListGet = read($pdo, "SELECT DISTINCT brand FROM stabilizers $queryCondition;", $arPrepParams);
-
-// $CountRecords = read($pdo, "SELECT COUNT(*) AS count FROM stabilizers JOIN brands ON brand = brand_id $queryCondition", $arPrepParams)[0]['count'];
 
 $CountRecords = read($pdo, "SELECT COUNT(*) AS count FROM stabilizers $queryCondition", $arPrepParams)[0]['count'];
 

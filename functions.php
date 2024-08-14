@@ -28,12 +28,14 @@ function rangeQuery($getParam, $column)
     }
 }
 
-function cleanEpmtyGet() {
-   
+function cleanEpmtyGet()
+{
+
     $parsedUrl = str_replace(['/', '?'],'' , $_SERVER['REQUEST_URI']);
     $arQeryParams = explode("&", $parsedUrl);
+
     foreach ($arQeryParams as $key => $param) {
-        if (substr($param, -1) === "=" ) {
+        if (substr($param, -1) == "=" ) {
             unset($arQeryParams[$key]);
         }
     }
@@ -43,22 +45,13 @@ function cleanEpmtyGet() {
     if ($QeryParams !== '') {
         $QeryParams = '?' . $QeryParams;
     }
-    
 
-    // $arQery = array_filter($arQery);
-
-    // if (isset($getParam) && isset($getParamValue)) {
-    //     $arQery[$getParam] = $arQery[$getParamValue];
-    // }
-
-    // parse_str($parsedUrl['query'], $queryParams);
-
-    // $arQery = array_filter($queryParams);
     if (!empty($_SERVER['HTTPS'])) {
         $url = 'https';
     } else {
         $url = 'http';
     }
+
     $url .= '://' . $_SERVER['HTTP_HOST'] . '/' . $QeryParams;
 
     return $url;
@@ -71,6 +64,7 @@ function pagination($getParam = NULL, $getParamValue = NULL)
     $arQueryParams[$getParam] = $getParamValue;
     $QeryParams = http_build_query($arQueryParams);
     $QeryParams = '?' . $QeryParams;
+
     if (!empty($_SERVER['HTTPS'])) {
         $url = 'https';
     } else {
@@ -111,4 +105,3 @@ function rusTranslit($string)
 
     return strtr($string, $converter);
 }
-

@@ -2,12 +2,6 @@
 <?php
 require_once('handler.php');
 
-if (!empty($_GET)
-    && preg_match("/=&|=$/", $_SERVER['REQUEST_URI'])
-) {
-    header('Location: ' . cleanEpmtyGet());
-    exit;
-}
 ?>
 
 <!DOCTYPE html>
@@ -145,29 +139,11 @@ if (!empty($_GET)
                     "><</a>
                 </div>
                 <?php
-/*               if ($CountRecords > 0) {
-                    ?>
-                    <a href="<?= pagination('page', 1) ?>" class="page"><?= 1 ?></a><?php
-                    if ($_GET['page'] > 4) {
-                        ?><a href="<?= pagination('page', $_GET['page'] - 4) ?>" class="page">...</a><?php
-                    }
-                    $j = 0;
-                    for($i = 2; $i <= 4; $i++) {
-                        ?><a href="<?= pagination('page', $_GET['page'] + $j) ?>" class="page"><?=$_GET['page'] + $j?></a><?php
-                        $j++;
-                    }
-                    if (ceil($CountRecords / $countShow) > 9) {
-                        ?><a href="<?= pagination('page', $_GET['page'] + 4) ?>" class="page">...</a><?php
-                    }
-                }
-*/
-                
-                for($i = 1; $i <= ceil($CountRecords / $countShow); $i++) {
+                for ($i = 1; $i <= ceil($CountRecords / $countShow); $i++) {
                 ?>
                     <a href="<?= pagination('page', $i) ?>" class="page"><?= $i ?></a>
                 <?php
                 }
-
                 ?>
                 <div class="pageChange">
                     <a href="
@@ -187,13 +163,5 @@ if (!empty($_GET)
             </div>
         </div>
     </div>
-    <pre>
-        <?php
-        print_r (pagination('page', 3));
-            // print_r($arBrandList)
-            echo '<br>';
-        echo $_SERVER['REQUEST_URI'];
-        ?>
-    </pre>
 </body>
 </html>

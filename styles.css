@@ -90,9 +90,9 @@ select {
     margin-bottom: 20px;
 }
 
-/* .filterWraperFix {
+.filterWraperFix {
     position: fixed;
-} */
+}
 
 .pageHidden {
     display: none;
@@ -102,4 +102,13 @@ select {
     background: none;
     border: none;
     cursor: pointer;
+}
+
+.NavigationWraper {
+    display: flex;
+}
+
+.NavigationWraper * {
+    margin-left: 5px;
+    margin-right: 5px;
 }
