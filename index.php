@@ -2,6 +2,12 @@
 <?php
 require_once('handler.php');
 
+if (!empty($_GET)
+    && preg_match("/=&|=$/", $_SERVER['REQUEST_URI'])
+) {
+    header('Location: ' . cleanEpmtyGet());
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +71,7 @@ require_once('handler.php');
                                 <label class="filterBrandUnit
                                     <?php
                                         foreach ($arBrandListGet as $brandGet) {
-                                            if ($brandGet['name'] != $brand['name']) {
+                                            if ($brandGet['brand'] != $brand['brand']) {
                                                 $flag = true;
                                             } else {
                                                 $flag = false;
@@ -77,15 +83,15 @@ require_once('handler.php');
                                         }
                                     ?>
                                     ">
-                                    <input type="checkbox" name="filterBrands[]" value="<?= $brand['name'] ?>"
+                                    <input type="checkbox" name="filterBrands[]" value="<?= $brand['brand'] ?>"
                                         <?php
                                         if (isset($_GET['filterBrands'])) {
-                                            if (in_array($brand['name'], $_GET['filterBrands'])) {
+                                            if (in_array($brand['brand'], $_GET['filterBrands'])) {
                                                 echo 'checked';
                                             }
-                                        } 
+                                        }
                                         ?>
-                                    /><?= $brand['name'] ?><br />
+                                    /><?= read($pdo, 'SELECT DISTINCT name FROM brands WHERE brand_id = ' . $brand["brand"] . ';')[0]['name'] ?><br />
                                 </label>
                             <?php
                             }
@@ -123,15 +129,71 @@ require_once('handler.php');
             }
             ?>
             <div class="NavigationWraper">
+                <div class="pageChange">
+                    <a href="
+                        <?php
+                        if (isset($_GET['page'])){
+                            $previousPage = $_GET['page'] - 1;
+                        } else {
+                            $previousPage = ceil($CountRecords / $countShow);
+                        }
+                        
+                        if ($previousPage >= 1) {
+                            echo pagination('page', $previousPage);
+                        }
+                        ?>
+                    "><</a>
+                </div>
                 <?php
+/*               if ($CountRecords > 0) {
+                    ?>
+                    <a href="<?= pagination('page', 1) ?>" class="page"><?= 1 ?></a><?php
+                    if ($_GET['page'] > 4) {
+                        ?><a href="<?= pagination('page', $_GET['page'] - 4) ?>" class="page">...</a><?php
+                    }
+                    $j = 0;
+                    for($i = 2; $i <= 4; $i++) {
+                        ?><a href="<?= pagination('page', $_GET['page'] + $j) ?>" class="page"><?=$_GET['page'] + $j?></a><?php
+                        $j++;
+                    }
+                    if (ceil($CountRecords / $countShow) > 9) {
+                        ?><a href="<?= pagination('page', $_GET['page'] + 4) ?>" class="page">...</a><?php
+                    }
+                }
+*/
+                
                 for($i = 1; $i <= ceil($CountRecords / $countShow); $i++) {
                 ?>
-                    <a href="" class="page" onclick="updateURLParameter('page', <?= $i ?>); return false;"><?= $i ?></a>
+                    <a href="<?= pagination('page', $i) ?>" class="page"><?= $i ?></a>
                 <?php
                 }
+
                 ?>
+                <div class="pageChange">
+                    <a href="
+                        <?php
+                        if (isset($_GET['page'])){
+                            $nextPage = $_GET['page'] + 1;
+                        } else {
+                            $nextPage = 2;
+                        }
+                        
+                        if ($nextPage <= ceil($CountRecords / $countShow)) {
+                            echo pagination('page', $nextPage);
+                        }
+                        ?>
+                    ">></a>
+                </div>
             </div>
         </div>
     </div>
+    <pre>
+        <?php
+        print_r (pagination('page', 3));
+            // print_r($arBrandList)
+            echo '<br>';
+        echo $_SERVER['REQUEST_URI'];
+        ?>
+    </pre>
 </body>
 </html>

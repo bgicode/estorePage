@@ -90,6 +90,16 @@ select {
     margin-bottom: 20px;
 }
 
-.filterWraperFix {
+/* .filterWraperFix {
     position: fixed;
+} */
+
+.pageHidden {
+    display: none;
+}
+
+.pageMore {
+    background: none;
+    border: none;
+    cursor: pointer;
 }
