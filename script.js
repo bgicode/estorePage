@@ -9,9 +9,6 @@ function updateURLParameter(param, paramVal) {
     window.location.href = url.toString();
 }
 
-
-
-
 window.onload = function()
 {
     let currentURL = window.location.href;
@@ -19,7 +16,7 @@ window.onload = function()
 
     let page = url.searchParams.get('page');
 
-    let arPaginator = document.getElementsByClassName('page');
+    const arPaginator = document.getElementsByClassName('page');
 
     const addPageAfter = document.createElement('button');
     addPageAfter.textContent = '...';
@@ -56,10 +53,16 @@ window.onload = function()
         } else {
             arPaginator[i].classList.remove("pageSelect");
         }
-        if (flag == true && i < (paginator - 2) && i > 0 ) {
+        if (flag == true
+            && i < (paginator - 2)
+            && i > 0
+        ) {
             arPaginator[i].classList.add("pageHidden");
         }
-        if (arPaginator.length > 5 && i > (parseInt(paginator) + 1) && i != (arPaginator.length - 1)) {
+        if (arPaginator.length > 5
+            && i > (parseInt(paginator) + 1)
+            && i != (arPaginator.length - 1)
+        ) {
             arPaginator[i].classList.add("pageHidden");
             var overPage = true;
         }
@@ -73,7 +76,7 @@ window.onload = function()
         updateURLParameter('page', parseInt(paginator) + 3);
      });
 
-    let selectDropdown = document.querySelector('select');
+    const selectDropdown = document.querySelector('select');
 
     selectDropdown.addEventListener('change', function (e) {
         url.searchParams.set('countShow', selectDropdown.value);
@@ -87,5 +90,4 @@ window.onload = function()
     const parent = document.querySelector(".filterWraper");
 
     parent.style.width = `${childeWith}px`;
-
 }

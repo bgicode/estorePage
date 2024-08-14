@@ -70,7 +70,7 @@ if (isset($_GET['filterBrands'])) {
             $brandsCondition .= " OR brand = :brand" . (string)$brand;
         }
         $brandItter++;
-        $arPrepParamsBrands[ "brand" . (string)$brand] = $brand;
+        $arPrepParamsBrands["brand" . (string)$brand] = $brand;
     }
     $brandsCondition .= ") AND ";
 }
@@ -78,7 +78,6 @@ if (isset($_GET['filterBrands'])) {
 if ($isQueryCondition) {
     $queryCondition = "WHERE " . $rangePrice . $brandsCondition . $rangePower . $rangeWeight;
     $arPrepParams = [];
-    
     $arPrepParams = $arPrepParamsPrice + $arPrepParamsPower + $arPrepParamsWeight + $arPrepParamsBrands;
 }
 

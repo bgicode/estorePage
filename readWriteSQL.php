@@ -2,12 +2,12 @@
 try {
     $pdo = new PDO(
         'mysql:host=localhost;dbname=sqltask',
-        'root',
-        '',
+        'sqltask',
+        'sqltask',
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
 } catch (PDOException $e) {
-    echo "Невозможно установить соединение с базой данных";
+    echo "Невозможно установить соединение с базой данных" . $e->getMessage();
 }
 
 function read($pdo, $query, $arPrepParams = NULL): mixed
