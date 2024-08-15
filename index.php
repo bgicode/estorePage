@@ -17,7 +17,6 @@ require_once('handler.php');
             <div class="filterWraperFix">
                 <form action="<?php $_SERVER['REQUEST_URI']?>" method="GET" id='form'>
 
-                    
                     <div class="filterParametrWraper">
                         <span class="filterUnitTitle">Цена</span>
                         <div class="parametrWraper">
@@ -96,69 +95,79 @@ require_once('handler.php');
         </div>
 
         <div class="goodsListWraper">
-            <div class="countShowWrapper">
-                <select onfocus="this.size=5;" onblur="this.size=0;" onchange="this.size=1; this.blur()">
-                    <option >показать <?=$countShow ?> товаров на странице </option>
-                    <option value="5">5</option>
-                    <option value="7">7</option>
-                    <option value="10">10</option>
-                    <option value="<?= $CountRecords ?>">всё</option>
-                </select>
-            </div>
             <?php
-            foreach ($arAllRecords as $Record) {
+            if (!empty($arAllRecords)) {
             ?>
-                <div class="goodUnitWraper">
-                    <div class="model">
-                        <div class="goodBrand"><?= $Record['name'] ?></div>
-                        <div class="goodBrand"><?= $Record['model'] ?></div>
-                    </div>
-                    <div class="goodPower"><?= $Record['power'] . ' кВт' ?></div>
-                    <div class="goodWeight"><?= $Record['weight'] . ' кг' ?></div>
-                    <div class="goodPrice righted"><?= $Record['price'] . ' руб' ?></div>
-                </div>
-            <?php
-            }
-            ?>
-            <div class="NavigationWraper">
-                <div class="pageChange">
-                    <a href="
-                        <?php
-                        if (isset($_GET['page'])){
-                            $previousPage = $_GET['page'] - 1;
-                        } else {
-                            $previousPage = ceil($CountRecords / $countShow);
-                        }
-                        
-                        if ($previousPage >= 1) {
-                            echo pagination('page', $previousPage);
-                        }
-                        ?>
-                    "><</a>
+                <div class="countShowWrapper">
+                    <select onfocus="this.size=5;" onblur="this.size=0;" onchange="this.size=1; this.blur()">
+                        <option >показать <?=$countShow ?> товаров на странице </option>
+                        <option value="5">5</option>
+                        <option value="7">7</option>
+                        <option value="10">10</option>
+                        <option value="<?= $CountRecords ?>">всё</option>
+                    </select>
                 </div>
                 <?php
-                for ($i = 1; $i <= ceil($CountRecords / $countShow); $i++) {
+                foreach ($arAllRecords as $Record) {
                 ?>
-                    <a href="<?= pagination('page', $i) ?>" class="page"><?= $i ?></a>
+                    <div class="goodUnitWraper">
+                        <div class="model">
+                            <div class="goodBrand"><?= $Record['name'] ?></div>
+                            <div class="goodBrand"><?= $Record['model'] ?></div>
+                        </div>
+                        <div class="goodPower"><?= $Record['power'] . ' кВт' ?></div>
+                        <div class="goodWeight"><?= $Record['weight'] . ' кг' ?></div>
+                        <div class="goodPrice righted"><?= $Record['price'] . ' руб' ?></div>
+                    </div>
                 <?php
                 }
                 ?>
-                <div class="pageChange">
-                    <a href="
-                        <?php
-                        if (isset($_GET['page'])){
-                            $nextPage = $_GET['page'] + 1;
-                        } else {
-                            $nextPage = 2;
-                        }
-                        
-                        if ($nextPage <= ceil($CountRecords / $countShow)) {
-                            echo pagination('page', $nextPage);
-                        }
-                        ?>
-                    ">></a>
+                <div class="NavigationWraper">
+                    <div class="pageChange">
+                        <a href="
+                            <?php
+                            if (isset($_GET['page'])){
+                                $previousPage = $_GET['page'] - 1;
+                            } else {
+                                $previousPage = ceil($CountRecords / $countShow);
+                            }
+                            
+                            if ($previousPage >= 1) {
+                                echo pagination('page', $previousPage);
+                            }
+                            ?>
+                        "><</a>
+                    </div>
+                    <?php
+                    for ($i = 1; $i <= ceil($CountRecords / $countShow); $i++) {
+                    ?>
+                        <a href="<?= pagination('page', $i) ?>" class="page"><?= $i ?></a>
+                    <?php
+                    }
+                    ?>
+                    <div class="pageChange">
+                        <a href="
+                            <?php
+                            if (isset($_GET['page'])){
+                                $nextPage = $_GET['page'] + 1;
+                            } else {
+                                $nextPage = 2;
+                            }
+                            
+                            if ($nextPage <= ceil($CountRecords / $countShow)) {
+                                echo pagination('page', $nextPage);
+                            }
+                            ?>
+                        ">></a>
+                    </div>
                 </div>
-            </div>
+            <?php
+            } else {
+                ?>
+                <div>Нет товаров</div>
+                <?php
+            }
+            ?>
         </div>
     </div>
 </body>

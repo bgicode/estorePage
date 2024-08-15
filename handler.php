@@ -2,6 +2,9 @@
 require_once('readWriteSQL.php');
 require_once('functions.php');
 
+ini_set('display_errors', 'off');
+error_reporting(0);
+
 if (!empty($_GET)
     && preg_match("/=&|=$/", $_SERVER['REQUEST_URI'])
 ) {
