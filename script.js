@@ -77,14 +77,17 @@ window.onload = function()
      });
 
     const selectDropdown = document.querySelector('select');
-
-    selectDropdown.addEventListener('change', function (e) {
-        url.searchParams.set('countShow', selectDropdown.value);
-        url.searchParams.set('page', 1);
-
-        window.location.href = url.toString();
-    });
-
+    
+    if (selectDropdown != null) {
+        selectDropdown.addEventListener('change', function (e) {
+            url.searchParams.set('countShow', selectDropdown.value);
+            url.searchParams.set('page', 1);
+    
+            window.location.href = url.toString();
+        });
+    
+    }
+    
     let childeWith = document.querySelector(".filterWraperFix").offsetWidth;
 
     const parent = document.querySelector(".filterWraper");
