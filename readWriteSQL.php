@@ -2,8 +2,8 @@
 try {
     $pdo = new PDO(
         'mysql:host=localhost;dbname=sqltask',
-        'sqltask',
-        'sqltask',
+        'root',
+        '',
         [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
     );
 } catch (PDOException $e) {

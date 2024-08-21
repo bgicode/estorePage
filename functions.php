@@ -60,6 +60,11 @@ function pagination($getParam = NULL, $getParamValue = NULL)
     $parsedUrl = preg_replace('/.*\/|.*\?/', '', $_SERVER['REQUEST_URI']);
     parse_str($parsedUrl, $arQueryParams);
     $arQueryParams[$getParam] = $getParamValue;
+
+    if ($getParam == 'countShow') {
+        unset($arQueryParams['page']);
+    }
+
     $QeryParams = http_build_query($arQueryParams);
     $QeryParams = '?' . $QeryParams;
 

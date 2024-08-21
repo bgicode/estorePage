@@ -13,6 +13,7 @@ require_once('handler.php');
 </head>
 <body>
     <div class="mainWraper">
+
         <div class="filterWraper">
             <div class="filterWraperFix">
                 <form action="<?php $_SERVER['REQUEST_URI']?>" method="GET" id='form'>
@@ -61,17 +62,17 @@ require_once('handler.php');
                             ?>
                                 <label class="filterBrandUnit
                                     <?php
-                                        foreach ($arBrandListGet as $brandGet) {
-                                            if ($brandGet['brand'] != $brand['brand']) {
-                                                $flag = true;
-                                            } else {
-                                                $flag = false;
-                                                break;
-                                            }
+                                    foreach ($arBrandListGet as $brandGet) {
+                                        if ($brandGet['brand'] != $brand['brand']) {
+                                            $flag = true;
+                                        } else {
+                                            $flag = false;
+                                            break;
                                         }
-                                        if ($flag) {
-                                            echo 'notAvailable';
-                                        }
+                                    }
+                                    if ($flag) {
+                                        echo 'notAvailable';
+                                    }
                                     ?>
                                     ">
                                     <input type="checkbox" name="filterBrands[]" value="<?= $brand['brand'] ?>"
@@ -99,13 +100,16 @@ require_once('handler.php');
             if (!empty($arAllRecords)) {
             ?>
                 <div class="countShowWrapper">
-                    <select onfocus="this.size=5;" onblur="this.size=0;" onchange="this.size=1; this.blur()">
-                        <option >показать <?=$countShow ?> товаров на странице </option>
-                        <option value="5">5</option>
-                        <option value="7">7</option>
-                        <option value="10">10</option>
-                        <option value="<?= $CountRecords ?>">всё</option>
-                    </select>
+                    <details>
+                        <summary>показать <?=$countShow ?> товаров на странице </summary>
+                        <div>
+                        <a href="<?=pagination('countShow', 3)?>">3</a>
+                        <a href="<?=pagination('countShow', 5)?>">5</a>
+                        <a href="<?=pagination('countShow', 7)?>">7</a>
+                        <a href="<?=pagination('countShow', 10)?>">10</a>
+                        <a href="<?=pagination('countShow', $CountRecords)?>">Все</a>
+                        </div>
+                    </details>
                 </div>
                 <?php
                 foreach ($arAllRecords as $Record) {
@@ -123,49 +127,137 @@ require_once('handler.php');
                 }
                 ?>
                 <div class="NavigationWraper">
-                    <div class="pageChange">
-                        <a href="
-                            <?php
-                            if (isset($_GET['page'])){
-                                $previousPage = $_GET['page'] - 1;
-                            } else {
-                                $previousPage = ceil($CountRecords / $countShow);
-                            }
-                            
-                            if ($previousPage >= 1) {
-                                echo pagination('page', $previousPage);
-                            }
-                            ?>
-                        "><</a>
-                    </div>
                     <?php
-                    for ($i = 1; $i <= ceil($CountRecords / $countShow); $i++) {
+                    if ($countPages >= 2) {
                     ?>
-                        <a href="<?= pagination('page', $i) ?>" class="page"><?= $i ?></a>
+                        <div class="pageChange">
+                            <a href="
+                                <?php
+                                if (isset($_GET['page'])){
+                                    $previousPage = $_GET['page'] - 1;
+                                } else {
+                                    $previousPage = $countPages;
+                                }
+                                
+                                if ($previousPage > 1) {
+                                    echo pagination('page', $previousPage);
+                                }
+                                ?>
+                            "><</a>
+                        </div>
+                    <?php
+                    }
+                    // Начало пагинации, сокрытие страниц при их количестве больше 9
+                    if ($countPages > 9) {
+                    ?>
+                        <a href="<?= pagination('page', 1) ?>" class="page">1</a>
+                        <?php
+                        // начало символ сокрытия страниц
+                        if (isset($_GET['page'])) {
+                            if ($_GET['page'] >= 6) {
+                        ?>
+                                <a href="<?= pagination('page', ($_GET['page'] - 3)) ?>" class="page">...</a>
+                                <?php
+                                $afterHidenPageStart = true;
+                            }
+                        }
+                        // конец символ сокрытия страниц
+                        // начало без окрытия
+                        if (($countPages - $_GET['page']) <= 4) {
+                            for ($i = 0; $i < 4; $i++) {
+                                ?>
+                                <a href="<?= pagination('page', $countPages - 4 + $i) ?>" class="page"><?= $countPages - 4 + $i ?></a>
+                            <?php
+                            }
+                        } else {
+                        // конец без сокрытия
+                        // начало страницы если первые скрыты
+                            for ($i = 0; $i <= 3; $i++) {
+                                if(isset($_GET['page'])) {
+                                    if (!$afterHidenPageStart) {
+                            ?>
+                                        <a href="<?= pagination('page', $i + 2) ?>" class="page"><?= $i + 2 ?></a>
+                                    <?php
+                                    } elseif ($_GET['page']+ $i < $countPages) {
+                                    ?>
+                                        <a href="<?= pagination('page', $_GET['page'] + $i) ?>" class="page"><?= $_GET['page'] + $i ?></a>
+                                    <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <a href="<?= pagination('page', $i + 2) ?>" class="page"><?= $i + 2 ?></a>
+                                <?php
+                                }
+                            }
+                        }
+                        // конец страницы если первые скрыты
+                        // начало сокрыет последних страниц
+                        if ($countPages > 9 && ($countPages - $_GET['page']) > 4) {
+                            if (isset($_GET['page'])) {
+                                if (!$afterHidenPageStart && $_GET['page'] < 6) {
+                                    $nextPages = 6;
+                                } elseif ($_GET['page'] == 1) {
+                                    $nextPages = $_GET['page'] + 6;
+                                } else {
+                                    $nextPages = $_GET['page'] + 3;
+                                }
+                            } else {
+                                $nextPages = 6;
+                            }
+                            // начало заполнение сокрытия страниц при малом их кол-ве
+                            $endPagesCount = $countPages - $_GET['page'] - 4;
+                            if ($endPagesCount <= 2) {
+                                for($i = 0; $i < $endPagesCount; $i++) {
+                                ?>
+                                    <a href="<?= pagination('page', $countPages - $endPagesCount + $i) ?>" class="page"><?= $countPages - $endPagesCount + $i?></a>
+                                <?php
+                                }
+                            // конец заполнение сокрытия страниц при малом их кол-ве
+                            } else {
+                                ?>
+                                <a href="<?= pagination('page', $nextPages) ?>" class="page">...</a>
+                            <?php
+                            }
+                        }
+                        // конец сокрыет последних страниц
+                        ?>
+                        <a href="<?= pagination('page', $countPages) ?>" class="page"><?= $countPages ?></a>
+                    <?php
+                    } else {
+                        for ($i = 1; $i <= $countPages; $i++) {
+                    ?>
+                                <a href="<?= pagination('page', $i) ?>" class="page"><?= $i ?></a>
+                            <?php
+                            }
+                    }
+                    // конец пагинации
+
+                    if ($countPages >= 2) {
+                    ?>
+                        <div class="pageChange">
+                            <a href="
+                                <?php
+                                if (isset($_GET['page'])){
+                                    $nextPage = $_GET['page'] + 1;
+                                } else {
+                                    $nextPage = 2;
+                                }
+                                
+                                if ($nextPage <= $countPages) {
+                                    echo pagination('page', $nextPage);
+                                }
+                                ?>
+                            ">></a>
+                        </div>
                     <?php
                     }
                     ?>
-                    <div class="pageChange">
-                        <a href="
-                            <?php
-                            if (isset($_GET['page'])){
-                                $nextPage = $_GET['page'] + 1;
-                            } else {
-                                $nextPage = 2;
-                            }
-                            
-                            if ($nextPage <= ceil($CountRecords / $countShow)) {
-                                echo pagination('page', $nextPage);
-                            }
-                            ?>
-                        ">></a>
-                    </div>
                 </div>
             <?php
             } else {
-                ?>
+            ?>
                 <div>Нет товаров</div>
-                <?php
+            <?php
             }
             ?>
         </div>
