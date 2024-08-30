@@ -103,11 +103,29 @@ require_once('handler.php');
                     <details>
                         <summary>показать <?=$countShow ?> товаров на странице </summary>
                         <div>
-                        <a href="<?=pagination('countShow', 3)?>">3</a>
-                        <a href="<?=pagination('countShow', 5)?>">5</a>
-                        <a href="<?=pagination('countShow', 7)?>">7</a>
-                        <a href="<?=pagination('countShow', 10)?>">10</a>
-                        <a href="<?=pagination('countShow', $CountRecords)?>">Все</a>
+                            <?php
+                            if ($CountRecords > 3) {
+                                ?>
+                                    <a href="<?=pagination('countShow', 3)?>">3</a>
+                                <?php
+                            }
+                            if ($CountRecords > 5) {
+                                ?>
+                                    <a href="<?=pagination('countShow', 5)?>">5</a>
+                                <?php
+                            }
+                            if ($CountRecords > 7) {
+                                ?>
+                                    <a href="<?=pagination('countShow', 7)?>">7</a>
+                                <?php
+                            }
+                            if ($CountRecords > 10) {
+                                ?>
+                                    <a href="<?=pagination('countShow', 10)?>">10</a>
+                                <?php
+                            }
+                            ?>
+                            <a href="<?=pagination('countShow', $CountRecords)?>">Все</a>
                         </div>
                     </details>
                 </div>
