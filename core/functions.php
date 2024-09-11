@@ -27,34 +27,6 @@ function rangeQuery($getParam, $column)
     }
 }
 
-function cleanEpmtyGet()
-{
-    $parsedUrl = preg_replace('/.*\/|.*\?/', '', $_SERVER['REQUEST_URI']);
-    $arQeryParams = explode("&", $parsedUrl);
-
-    foreach ($arQeryParams as $key => $param) {
-        if (substr($param, -1) == "=" ) {
-            unset($arQeryParams[$key]);
-        }
-    }
-
-    $QeryParams = implode("&", $arQeryParams);
-    
-    if ($QeryParams !== '') {
-        $QeryParams = '?' . $QeryParams;
-    }
-
-    if (!empty($_SERVER['HTTPS'])) {
-        $url = 'https';
-    } else {
-        $url = 'http';
-    }
-
-    $url .= '://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/\\') . $QeryParams;
-
-    return $url;
-}
-
 function pagination($getParam = NULL, $getParamValue = NULL)
 {
     $parsedUrl = preg_replace('/.*\/|.*\?/', '', $_SERVER['REQUEST_URI']);

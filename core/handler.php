@@ -2,12 +2,8 @@
 require_once('readWriteSQL.php');
 require_once('functions.php');
 
-if (!empty($_GET)
-    && preg_match("/=&|=$/", $_SERVER['REQUEST_URI'])
-) {
-    header('Location: ' . cleanEpmtyGet());
-    exit;
-}
+ini_set('display_errors', 'off');
+error_reporting(0);
 
 $arExtremums = read($pdo, "SELECT MIN(price) AS minPrice, MAX(price) AS maxPrice, MIN(weight) AS minWeight, MAX(weight) AS maxWeight, MIN(power) AS minPower, MAX(power) AS maxPower FROM stabilizers;");
 
