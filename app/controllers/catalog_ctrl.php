@@ -1,5 +1,6 @@
 <?php
 require_once('./core/handler.php');
+require_once('./app/models/catalog_model.php');
 
 $arHowMuchToShow = [];
 
