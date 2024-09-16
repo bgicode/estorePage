@@ -25,14 +25,14 @@ $arMinMaxFields = [
 
 $arBrandsParams = [];
 foreach ($arBrandList as $brand) {
-    foreach ($arBrandListGet as $brandGet) {
-        if ($brandGet['brand'] != $brand['brand']) {
-            $arBrandsParams[$brand['brand']]['Available'] = 'notAvailable';
-        } else {
-            $arBrandsParams[$brand['brand']]['Available'] = 'Available';
-            break;
-        }
-    }
+    // foreach ($arBrandListGet as $brandGet) {
+    //     if ($brandGet['brand'] != $brand['brand']) {
+    //         $arBrandsParams[$brand['brand']]['Available'] = 'notAvailable';
+    //     } else {
+    //         $arBrandsParams[$brand['brand']]['Available'] = 'Available';
+    //         break;
+    //     }
+    // }
     if (isset($_GET['filterBrands'])) {
         if (in_array($brand['brand'], $_GET['filterBrands'])) {
             $arBrandsParams[$brand['brand']]['check'] = ' checked';

@@ -17,6 +17,3 @@ $arPrepParamsPower = [];
 $arPrepParamsWeight = [];
 $arPrepParamsBrands = [];
 $arPrepParams = NULL;
-
-$arBrandListGet = read($pdo, "SELECT DISTINCT brand FROM stabilizers $queryCondition;", $arPrepParams);
-

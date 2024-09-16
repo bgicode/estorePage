@@ -1,5 +1,5 @@
 <?php
-require_once('./core/handler.php');
+include_once(dirname(dirname(__DIR__)) . '/core/handler.php');
 
 if (isset($_GET["countShow"])) {
     $countShow = $_GET['countShow'];

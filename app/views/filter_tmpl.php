@@ -10,10 +10,10 @@
         <span class="filterUnitTitle"><?= $field['title'] ?></span>
         <div class="parametrWraper">
             <div class="parametr from">
-                <input class="filterUnitValue" type="number" step="any" min="<?= $field['min'] ?>" max="<?= $field['max'] ?>" placeholder="от <?= $field['min'] ?>" name="<?= $field['name'] ?>[from]" value="<?= $_GET[$field['name']]['from'] ?>">
+                <input class="filterUnitValue min<?= $field['name'] ?> <?= $field['name'] ?>" type="number" step="any" min="<?= $field['min'] ?>" max="<?= $field['max'] ?>" placeholder="от <?= $field['min'] ?>" name="<?= $field['name'] ?>[from]" value="<?= $_GET[$field['name']]['from'] ?>">
             </div>
             <div class="parametr to">
-                <input class="filterUnitValue" type="number" step="any" min="<?= $field['min']?>" max="<?= $field['max'] ?>" placeholder="до <?= $field['max'] ?>" name="<?= $field['name'] ?>[to]" value="<?= $_GET[$field['name']]['to'] ?>">
+                <input class="filterUnitValue max<?= $field['name'] ?> <?= $field['name'] ?>" type="number" step="any" min="<?= $field['min']?>" max="<?= $field['max'] ?>" placeholder="до <?= $field['max'] ?>" name="<?= $field['name'] ?>[to]" value="<?= $_GET[$field['name']]['to'] ?>">
             </div>
         </div>
     </div>
@@ -28,7 +28,7 @@
             <?php
             foreach ($arBrandsParams as $brandId => $arBrandCheck) {
             ?>
-                <label class="filterBrandUnit <?= $arBrandCheck['Available'] ?>">
+                <label class="filterBrandUnit">
                     <input type="checkbox" name="filterBrands[]" value="<?= $brandId ?>"<?= $arBrandCheck['check'] ?>/>
                     <?= $arBrandCheck['name'] ?>
                     <br>

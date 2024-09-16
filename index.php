@@ -22,5 +22,6 @@
             ?>
         </div>
     </div>
+    <script src="./ajax/ajax.js" type="text/javascript"></script>
 </body>
 </html>
